@@ -72,12 +72,14 @@ public class Main extends Application {
     //The same with login method
     public void sign_up(ActionEvent actionEvent) {
         if(!(reg_login.getText().isEmpty() || reg_name.getText().isEmpty() || reg_address.getText().isEmpty() || reg_number.getText().isEmpty() || reg_password.getText().isEmpty()))
-        {System.out.println(reg_login.getText());
-        System.out.println(reg_name.getText());
-        System.out.println(reg_address.getText());
-        System.out.println(reg_number.getText());
-        System.out.println(reg_password.getText());
+        {
+            registerLib(reg_name.getText(), reg_address.getText(), reg_number.getText(), reg_password.getText());
+        }
+        else
+            System.out.println("Incorrect   ");
+    }
 
+    public void registerLib(String name, String address, String number, String password){
         StringBuilder cardNum = new StringBuilder("L");
         String size = ""+libDB.librarians.size();
         for (int i = 0; i < (8-size.length()); i++){
@@ -85,11 +87,7 @@ public class Main extends Application {
         }
         cardNum.append(libDB.librarians.size());
 
-            libDB.librarians.put(cardNum.toString(), new Librarian(reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNum.toString(), reg_password.getText()));
-            System.out.println(libDB.librarians.get(cardNum).getName());
-        }
-
-        else
-            System.out.println("Incorrect   ");
+        libDB.librarians.put(cardNum.toString(), new Librarian(name, address, number, cardNum.toString(), password));
+        System.out.println(libDB.librarians.get(cardNum.toString()).getName());
     }
 }

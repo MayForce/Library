@@ -1,22 +1,12 @@
 package sample;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
 import javafx.application.Application;
-import java.lang.System.*;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.sql.Connection;
-
 
 public class Main extends Application {
 
@@ -34,5 +24,13 @@ public class Main extends Application {
         primaryStage.show();
 
         ((Controller) fxmlLoader.getController()).c = c;
+
+        Test.TC1();
+        Test.TC2();
+        Test.TC3();
+        Test.TC4();
+        Test.TC5();
+        Test.TC6();
+        Test.TC7();
     }
 }

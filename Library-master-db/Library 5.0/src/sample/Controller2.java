@@ -70,20 +70,20 @@ public class Controller2 {
     }*/
 
 
-    public void addBookToBase(ActionEvent actionEvent) {
-
-        if (!(nameOfBook.getText().isEmpty() || author.getText().isEmpty() || numberOfCopies.getText().isEmpty() || price.getText().isEmpty()))
-        {
-            System.out.println("test");
-            DatabaseFunctions.addBooks(c,nameOfBook.getText(), author.getText(), Integer.parseInt(numberOfCopies.getText()), Integer.parseInt(price.getText()), (bestseller.isSelected()) ? 1 : 0);
-            Book newest  = new Book(author.getText(), nameOfBook.getText(), "", 0, "", 1, 2000, bestseller.isSelected());
-            for (int i = 0; i < Integer.parseInt(numberOfCopies.getText()); i++) {
-               newest.addCopy(false);
-            }
-
-
-        }
-    }
+//    public void addBookToBase(ActionEvent actionEvent) {
+//
+//        if (!(nameOfBook.getText().isEmpty() || author.getText().isEmpty() || numberOfCopies.getText().isEmpty() || price.getText().isEmpty()))
+//        {
+//            System.out.println("test");
+//            DatabaseFunctions.addBooks(c,nameOfBook.getText(), author.getText(), Integer.parseInt(numberOfCopies.getText()), Integer.parseInt(price.getText()), (bestseller.isSelected()) ? 1 : 0);
+//            Book newest  = new Book(author.getText(), nameOfBook.getText(), "", 0, "", 1, 2000, bestseller.isSelected());
+//            for (int i = 0; i < Integer.parseInt(numberOfCopies.getText()); i++) {
+//               newest.addCopy(false);
+//            }
+//
+//
+//        }
+//    }
 
     public void addPatronToBase(ActionEvent actionEvent) {
         if(!(Username.getText().isEmpty() || Name.getText().isEmpty() || Adress.getText().isEmpty() || PhoneNumber.getText().isEmpty() || Password.getText().isEmpty()))

@@ -4,14 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.util.ArrayList;
-import java.util.Random;
 
 public class Controller2 {
 
@@ -73,56 +70,50 @@ public class Controller2 {
     }*/
 
 
-    public void addBookToBase(ActionEvent actionEvent) {
+//    public void addBookToBase(ActionEvent actionEvent) {
+//
+//        if (!(nameOfBook.getText().isEmpty() || author.getText().isEmpty() || numberOfCopies.getText().isEmpty() || price.getText().isEmpty()))
+//        {
+//            System.out.println("test");
+//            DatabaseFunctions.addBooks(c,nameOfBook.getText(), author.getText(), Integer.parseInt(numberOfCopies.getText()), Integer.parseInt(price.getText()), (bestseller.isSelected()) ? 1 : 0);
+//            Book newest  = new Book(author.getText(), nameOfBook.getText(), "", 0, "", 1, 2000, bestseller.isSelected());
+//            for (int i = 0; i < Integer.parseInt(numberOfCopies.getText()); i++) {
+//               newest.addCopy(false);
+//            }
+//
+//
+//        }
+//    }
 
-        if (!(nameOfBook.getText().isEmpty() || author.getText().isEmpty() || numberOfCopies.getText().isEmpty() || price.getText().isEmpty()))
+    public void addPatronToBase(ActionEvent actionEvent) {
+        if(!(Username.getText().isEmpty() || Name.getText().isEmpty() || Adress.getText().isEmpty() || PhoneNumber.getText().isEmpty() || Password.getText().isEmpty()))
         {
-            System.out.println("test");
-            DatabaseFunctions.addBooks(c, nameOfBook.getText(), author.getText(), Integer.parseInt(numberOfCopies.getText()), Integer.parseInt(price.getText()), (bestseller.isSelected()) ? 1 : 0);
-            Book newest  = new Book(author.getText(), nameOfBook.getText(), "", 0, "", 1, 2000, bestseller.isSelected());
-            for (int i = 0; i < Integer.parseInt(numberOfCopies.getText()); i++) {
-               newest.addCopy(false);
-            }
+            registerPat(Username.getText(), Name.getText(), Adress.getText(), PhoneNumber.getText(), Password.getText(), faculty.isSelected());
+
 
         }
     }
 
-//    public void addPatronToBase(ActionEvent actionEvent) {
-//        if(!(Username.getText().isEmpty() || Name.getText().isEmpty() || Adress.getText().isEmpty() || PhoneNumber.getText().isEmpty() || Password.getText().isEmpty()))
-//        {
-//            registerPat(Username.getText(), Name.getText(), Adress.getText(), PhoneNumber.getText(), Password.getText(), faculty.isSelected());
-//
-//
-//        }
-//    }
-//
-//    private void registerPat(String username, String name, String address, String number, String password, Boolean faculty){
-//       StringBuilder cardNum = new StringBuilder("P");
-//        String size = ""+Main.patDB.patrons.size();
-//        for (int i = 0; i < (8-size.length()); i++){
-//            cardNum.append("0");
-//        }
-//        cardNum.append(Main.patDB.patrons.size());
-//
-//        Main.patDB.patrons.put(username, new Patron(name, address, number, cardNum.toString(), password, faculty));
-//
-//    }
+    private void registerPat(String username, String name, String address, String number, String password, Boolean faculty){
+
+
+    }
 
     public void addPatron(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addPatron.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
         Stage stage = new Stage();
         stage.setTitle("Add Patron");
         stage.setScene(scene);
         stage.show();
 
-        ((Controller) fxmlLoader.getController()).c = c;
+        ((Controller2) fxmlLoader.getController()).c = c;
     }
 
 
     public void addBook(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addBook.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 400, 600);
         Stage stage = new Stage();
         stage.setTitle("Add Book");
         stage.setScene(scene);

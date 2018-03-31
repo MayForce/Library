@@ -48,18 +48,11 @@ public class Document{
         this.keeper = keeper;
     }
 
-    public boolean checkOut(Patron user){
+    public boolean checkOut(User user){
         if (isReference || !isAvailable) return false;
         isAvailable = false;
         checkedOut = LocalDate.now();
-        if (user.isFaculty){
-            deadline = checkedOut.plusWeeks(4);
-        } else if (item instanceof Book){
-            Book temp = (Book) item;
-            if (!temp.isBestSeller)
-            deadline = checkedOut.plusWeeks(3);
-            else deadline = checkedOut.plusWeeks(2);
-        } else deadline = checkedOut.plusWeeks(2);
+        deadline = checkedOut.plusWeeks(2);
         keeper = user;
         return true;
     }

@@ -1,6 +1,6 @@
 package sample;
 
-public class Queue_Storer{
+public class Queue_Storer implements Comparable<Queue_Storer>{
     public String cardNumber;
     public String itemID;
     public int turn;
@@ -11,5 +11,9 @@ public class Queue_Storer{
         this.itemID = itemID;
         this.turn = turn;
         this.code = code;
+    }
+
+    public int compareTo(Queue_Storer o){
+        return turn > o.turn ? 1 : turn == o.turn ? 0 : -1;
     }
 }

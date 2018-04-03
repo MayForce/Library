@@ -295,7 +295,7 @@ public class Controller {
 
     // Used to register a checkout or add a user to the priority queue for an item
     // Description for GUI is below
-    public static boolean checkOut(String cardNumber, String itemID, int code) {
+    public static boolean checkOut(String cardNumber, String itemID, int code, LocalDate date) {
         // When button to checkout is clicked, the code to pass is 0
         switch (code){
             case 0:
@@ -303,7 +303,7 @@ public class Controller {
                 if (searchItem(itemID).copiesAvailable > 0 && (getPriorityQueue(itemID).isEmpty() || getPriorityQueue(itemID).peek().cardNumber.equals(cardNumber))) {
                     if(!getPriorityQueue(itemID).isEmpty()) updateTurns(itemID, searchQueue(cardNumber, itemID).code);  // Turn numbers will be updated using the recorded code from the queues table
                     else updateTurns(itemID, 0);
-                    LocalDate released = LocalDate.now();   // Save today's date as the released date
+                    LocalDate released = date;   // Save today's date as the released date
                     LocalDate deadline; //Obtain the deadline depending on criteria
                     if (searchUser(cardNumber).type_.toUpperCase().equals("VISITING"))
                         deadline = released.plusWeeks(1);
@@ -358,6 +358,10 @@ public class Controller {
         return true;
     }
 
+    public static boolean checkOut(String cardNumber, String itemID, int code){
+        return checkOut(cardNumber, itemID, code, LocalDate.now());
+    }
+
     // Used to obtain  a single Checkout information via its keeper card number and Item ID and store it in a Checkout object
     public static Checkout searchSingleCheckout(String cardNumber, String itemID) {
         try {
@@ -382,15 +386,14 @@ public class Controller {
     }
 
     // Used to renew a checkout
-    public static boolean renew(String cardNumber, String itemID) {
+    public static boolean renew(String cardNumber, String itemID,LocalDate date ) {
         if (searchSingleCheckout(cardNumber,itemID)!= null && searchSingleCheckout(cardNumber,itemID).onRequest < 1) {
-            if (LocalDate.parse(searchSingleCheckout(cardNumber, itemID).deadline).isEqual(LocalDate.now())) {
                 if (searchUser(cardNumber).type_.equals("VISITING")) {
-                    modCheckoutRelease(cardNumber, itemID, LocalDate.now().toString());
-                    modCheckoutDeadline(cardNumber, itemID, LocalDate.now().plusWeeks(1).toString());
+                    modCheckoutRelease(cardNumber, itemID, date.toString());
+                    modCheckoutDeadline(cardNumber, itemID, date.plusWeeks(1).toString());
                     modCheckoutRenew(cardNumber, itemID, searchSingleCheckout(cardNumber, itemID).renew + 1);
                 } else if (searchSingleCheckout(cardNumber, itemID).renew < 1){
-                    LocalDate released = LocalDate.now(), deadline;
+                    LocalDate released = date, deadline;
                     if (searchUser(cardNumber).type_.toUpperCase().equals("FACULTY")) deadline = released.plusWeeks(4);
                     else if (!searchItem(itemID).isBestSeller) deadline = released.plusWeeks(3);
                     else deadline = released.plusWeeks(2);
@@ -401,12 +404,15 @@ public class Controller {
                     System.out.println("Cannot renew more than 1 time.");
                     return false;
                 }
-            }
             return true;
         } else {
             System.out.println("Checkout not found.");
             return false;
         }
+    }
+
+    public static boolean renew(String cardNumber, String itemID) {
+        return renew(cardNumber, itemID, LocalDate.now());
     }
 
     // Methods used to modify any variable for a Checkout using its card number and itemID
@@ -472,10 +478,22 @@ public class Controller {
         } else return 0;
     }
 
-    public static void outstandingRequest(String cardNumber, String itemID){
+    public static void singleOutstandingRequest(String cardNumber, String itemID){
         if (searchSingleCheckout(cardNumber,itemID)!= null) {
             modCheckoutRequest(cardNumber, itemID, true);
             modDocNumberReferences(itemID, searchItem(itemID).numberReferences + 1);
+        }
+    }
+
+    public static void outstandingRequest(String itemID){
+        ArrayList<String> list = getCheckoutsForItem(itemID);
+        for (int i = 0; i < list.size(); i++){
+            singleOutstandingRequest(list.get(i), itemID);
+        }
+        PriorityQueue<Queue_Storer> q = getPriorityQueue(itemID);
+        for (int i = 0; !q.isEmpty(); i++){
+            updateTurns(itemID, q.peek().code);
+            deleteQueue(q.remove().cardNumber,itemID);
         }
     }
 

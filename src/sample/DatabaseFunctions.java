@@ -960,7 +960,7 @@ public class DatabaseFunctions {
 
     public static boolean addRecord(Connection c, String record){
         PreparedStatement preparedStatement;
-        String query = "insert into record (id, description)" + " values (?, ?)";
+        String query = "insert into record (rec, description)" + " values (?, ?)";
         try {
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setInt(1, 0);
@@ -975,7 +975,7 @@ public class DatabaseFunctions {
     public static ArrayList<String> getRecord(Connection c) {
         PreparedStatement preparedStatement;
         ResultSet resultSet;
-        String query = "SELECT * FROM record where id = 0";
+        String query = "SELECT * FROM record where rec = 0";
         ArrayList<String> record = new ArrayList<>();
         addRecord(Controller.c, "Admin obtained record. " + LocalDate.now().toString());
         try {

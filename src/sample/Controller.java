@@ -711,7 +711,7 @@ public class Controller {
 
     // Returns an ArrayList of all the entries in the system record
     public static ArrayList<String> getRecord() {
-        if (Main.current.privilege_>4){
+        if (Main.current.privilege_>3){
             return DatabaseFunctions.getRecord(c);
         } else {
             System.out.println("User has no privileges for this action.");
@@ -719,7 +719,7 @@ public class Controller {
         }
     }
 
-    // Registers in database every keyword for an item using the keywords string (keywords separated by commas)
+    // Registers in database every keyword for an item using the keywords string (keywords separated by space)
     public static void updateKeywords(String itemID, String keywords){
         String[] array = keywords.toUpperCase().split(" ") ;
         for (int i=0;i<array.length;i++){

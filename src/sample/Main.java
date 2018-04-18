@@ -9,10 +9,7 @@ import javafx.stage.StageStyle;
 import java.sql.Connection;
 
 public class Main extends Application {
-
-
-
-
+    public static User current;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Connection c = new Javaconnect().Connector();
@@ -25,12 +22,5 @@ public class Main extends Application {
 
         ((Controller) fxmlLoader.getController()).c = c;
 
-        /*Test.TC1();
-        Test.TC2();
-        Test.TC3();
-        Test.TC4();
-        Test.TC5();
-        Test.TC6();
-        Test.TC7();*/
     }
 }

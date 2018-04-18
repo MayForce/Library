@@ -90,7 +90,7 @@ public class Controller {
         if(!(reg_login.getText().isEmpty() || reg_name.getText().isEmpty() || reg_address.getText().isEmpty() || reg_number.getText().isEmpty() || reg_password.getText().isEmpty()))
         {
             String type;
-            addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText());
+            addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText(), 0);
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
@@ -124,64 +124,101 @@ public class Controller {
 
     // LIBRARY SYSTEM INNER-WORKING METHODS ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    // INCOMPLETE =================================
-    public static int numUsers(){return 0;}
-    // INCOMPLETE =================================
-    public static int numDocuments(){return 0;}
-
     // Used to add any type of User
-    public static void addUser(String username, String name, String address, String phoneNumber, String cardNumber, String password, String type) {
-        DatabaseFunctions.addUser(c, username, name, address, phoneNumber, cardNumber, password, type, 0, 0);
-        System.out.println(type + " " + Controller.searchUser(cardNumber).username_+ " added to system.");
+    public static void addUser(String username, String name, String address, String phoneNumber, String cardNumber, String password, String type, int privilege) {
+        if (Main.current.privilege_>1){
+            DatabaseFunctions.addUser(c, username, name, address, phoneNumber, cardNumber, password, type, 0, 0, privilege);
+            System.out.println(type + " " + Controller.searchUser(cardNumber).username_+ " added to system.");
+        } else {
+            System.out.println("User has no privileges for this action.");
+        }
     }
 
     // Used to obtain User information via their card number and store it in a User object
     public static User searchUser(String cardNumber) {
-        try {
-            modFine(cardNumber, totalFine(cardNumber));
-            User u = DatabaseFunctions.getUser(c, cardNumber);
-            System.out.println(u.name_ + " found.");
-            return u;
-        } catch (Exception e) {
-            System.out.println("User not found in the system.");
-            return null;
-        }
-
+            try {
+                modFine(cardNumber, totalFine(cardNumber));
+                User u = DatabaseFunctions.getUser(c, cardNumber);
+                System.out.println(u.name_ + " found.");
+                return u;
+            } catch (Exception e) {
+                System.out.println("User not found in the system.");
+                return null;
+            }
     }
 
     // Used to delete a User from the system using their card number
     public static void deleteUser(String cardNumber) {
-        if (searchUser(cardNumber)!= null) {
-            DatabaseFunctions.deleteUser(c, cardNumber);
-            System.out.println("User " + cardNumber + " deleted from system.");
-        } else System.out.println("User was not found.");
+        if (Main.current.privilege_>2){
+            if (searchUser(cardNumber)!= null) {
+                DatabaseFunctions.deleteUser(c, cardNumber);
+                System.out.println("User " + cardNumber + " deleted from system.");
+            } else System.out.println("User was not found.");
+        } else {
+            System.out.println("User has no privileges for this action.");
+        }
     }
 
     // Methods used to modify any variable for a user using its card number
     public static boolean modCardNumber(String cardNumber, String newest){
-        ArrayList<String> checkout = getCheckoutList(cardNumber);
-        for (int i = 0; i < checkout.size(); i++){
-            modCheckoutCardNumber(cardNumber,checkout.get(i), newest);
+        if (Main.current.privilege_>0){
+            ArrayList<String> checkout = getCheckoutList(cardNumber);
+            for (int i = 0; i < checkout.size(); i++){
+                modCheckoutCardNumber(cardNumber,checkout.get(i), newest);
+            }
+            return DatabaseFunctions.modCardNumber(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
         }
-        return DatabaseFunctions.modCardNumber(c,cardNumber,newest);
     }
     public static boolean modUsername(String cardNumber, String newest){
-        return DatabaseFunctions.modUsername(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modUsername(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modName(String cardNumber, String newest){
-        return DatabaseFunctions.modName(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modName(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modAddress(String cardNumber, String newest){
-        return DatabaseFunctions.modAddress(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modAddress(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modPhoneNumber(String cardNumber, String newest){
-        return DatabaseFunctions.modPhoneNumber(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modPhoneNumber(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modPassword(String cardNumber, String newest){
-        return DatabaseFunctions.modPassword(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modPassword(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modType(String cardNumber, String newest){
-        return DatabaseFunctions.modType(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modType(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modBorrow(String cardNumber, int newest){
         return DatabaseFunctions.modBorrow(c,cardNumber,newest);
@@ -192,9 +229,13 @@ public class Controller {
 
     // Used to add any type of Item
     // Depending on the type, some fields can be hidden in the interface and filled with default values
-    public static void addItem(String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences) {
-        DatabaseFunctions.addItem(c,itemID,author,title,publisher,edition,year,isBestSeller,price,numberCopies,type, numberReferences);
-        System.out.println(type + " " + Controller.searchItem(itemID).title + " added to system.");
+    public static void addItem(String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences, String keywords) {
+        if (Main.current.privilege_>1){
+            DatabaseFunctions.addItem(c,itemID,author,title,publisher,edition,year,isBestSeller,price,numberCopies,type, numberReferences, keywords);
+            System.out.println(type + " " + Controller.searchItem(itemID).title + " added to system.");
+        } else {
+            System.out.println("User has no privileges for this action.");
+        }
     }
 
     // Used to obtain Item information via its ID and store it in an Item_Storer object
@@ -212,40 +253,85 @@ public class Controller {
 
     // Used to delete an Item from the system using its ID
     public static void deleteItem(String itemID) {
-        if (searchItem(itemID)!= null) {
-            DatabaseFunctions.deleteItem(c, itemID);
-            System.out.println("Item " + itemID + " deleted from system.");
-        } else System.out.println("Item was not found.");
+        if (Main.current.privilege_>2){
+            if (searchItem(itemID)!= null) {
+                DatabaseFunctions.deleteItem(c, itemID);
+                System.out.println("Item " + itemID + " deleted from system.");
+            } else System.out.println("Item was not found.");
+        } else {
+            System.out.println("User has no privileges for this action.");
+        }
     }
 
     // Methods used to modify any variable for an item using its itemID
     public static boolean modDocItemID(String itemID, String newest){
-        ArrayList<String> checkout = getCheckoutsForItem(itemID);
-        for (int i = 0; i < checkout.size(); i++){
-            modCheckoutItemID(checkout.get(i),itemID, newest);
+        if (Main.current.privilege_>0){
+            ArrayList<String> checkout = getCheckoutsForItem(itemID);
+            for (int i = 0; i < checkout.size(); i++){
+                modCheckoutItemID(checkout.get(i),itemID, newest);
+            }
+            return DatabaseFunctions.modDocItemID(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
         }
-        return DatabaseFunctions.modDocItemID(c,itemID,newest);
     }
     public static boolean modDocAuthor(String itemID, String newest){
-        return DatabaseFunctions.modDocAuthor(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocAuthor(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocTitle(String itemID, String newest){
-        return DatabaseFunctions.modDocTitle(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocTitle(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocPublisher(String itemID, String newest){
-        return DatabaseFunctions.modDocPublisher(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocPublisher(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocEdition(String itemID, int newest){
-        return DatabaseFunctions.modDocEdition(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocEdition(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocYear(String itemID, int newest){
-        return DatabaseFunctions.modDocYear(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocYear(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
+
     }
     public static boolean modDocBestSeller(String itemID, boolean newest){
-        return DatabaseFunctions.modDocBestSeller(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocBestSeller(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocPrice(String itemID, double newest){
-        return DatabaseFunctions.modDocPrice(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocPrice(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocNumberOfCopies(String itemID, int newest){
         return DatabaseFunctions.modDocNumberOfCopies(c,itemID,newest);
@@ -254,13 +340,31 @@ public class Controller {
         return DatabaseFunctions.modDocCopiesAvailable(c,itemID,newest);
     }
     public static boolean modDocType(String itemID, String newest){
-        return DatabaseFunctions.modDocType(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modDocType(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocNumberReferences(String itemID, int newest){
         int temp = searchItem(itemID).copiesAvailable - searchItem(itemID).numberReferences;
         if (temp+newest <= searchItem(itemID).numberOfCopies)
         return DatabaseFunctions.modDocNumberReferences(c,itemID,temp+newest);
         else System.out.println("Not enough copies."); return false;
+    }
+    public static boolean modDocKeywords(String itemID, String newest){
+        if (Main.current.privilege_>0){
+            ArrayList<String> old = getKeywordsForItem(itemID);
+            for(int i=0;i<old.size();i++){
+                DatabaseFunctions.deleteKeyword(c,itemID,old.get(i));
+            }
+            updateKeywords(itemID,newest);
+            return DatabaseFunctions.modDocKeywords(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modDocInLine1(String itemID, int newest){
         return DatabaseFunctions.modDocInLine1(c,itemID,newest);
@@ -417,10 +521,21 @@ public class Controller {
 
     // Methods used to modify any variable for a Checkout using its card number and itemID
     public static boolean modCheckoutCardNumber(String cardNumber, String itemID, String newest){
-        return DatabaseFunctions.modCheckoutCardNumber(c,cardNumber,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modCheckoutCardNumber(c,cardNumber,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modCheckoutItemID(String cardNumber, String itemID, String newest){
-        return DatabaseFunctions.modCheckoutItemID(c,cardNumber,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modCheckoutItemID(c,cardNumber,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
+
     }
     public static boolean modCheckoutRelease(String cardNumber, String itemID, String newest){
         return DatabaseFunctions.modCheckoutRelease(c,cardNumber,itemID,newest);
@@ -444,16 +559,26 @@ public class Controller {
 
     // Used to add an available copy of a certain Item
     public static void addCopy(String itemID){
-        modDocNumberOfCopies(itemID,searchItem(itemID).numberOfCopies + 1);
+        if (Main.current.privilege_>1){
+            modDocNumberOfCopies(itemID,searchItem(itemID).numberOfCopies + 1);
+        } else {
+            System.out.println("User has no privileges for this action.");
+
+        }
+
     }
 
     // Used to remove an available copy of a certain Item
     public static void removeCopy(String itemID, int number){
-        if (searchItem(itemID).copiesAvailable >= number) {
-            modDocNumberOfCopies(itemID,searchItem(itemID).numberOfCopies - number);
-            System.out.println(number+" copies deleted from "+searchItem(itemID).title);
+        if (Main.current.privilege_>2){
+            if (searchItem(itemID).copiesAvailable >= number) {
+                modDocNumberOfCopies(itemID,searchItem(itemID).numberOfCopies - number);
+                System.out.println(number+" copies deleted from "+searchItem(itemID).title);
+            } else {
+                System.out.println("There are not sufficient copies of this item.");
+            }
         } else {
-            System.out.println("There are not sufficient copies of this item.");
+            System.out.println("User has no privileges for this action.");
         }
     }
 
@@ -479,21 +604,30 @@ public class Controller {
     }
 
     public static void singleOutstandingRequest(String cardNumber, String itemID){
-        if (searchSingleCheckout(cardNumber,itemID)!= null) {
-            modCheckoutRequest(cardNumber, itemID, true);
-            modDocNumberReferences(itemID, searchItem(itemID).numberReferences + 1);
+        if (Main.current.privilege_>1){
+            if (searchSingleCheckout(cardNumber,itemID)!= null) {
+                modCheckoutRequest(cardNumber, itemID, true);
+                modDocNumberReferences(itemID, searchItem(itemID).numberReferences + 1);
+            }
+        } else {
+            System.out.println("User has no privileges for this action.");
         }
+
     }
 
     public static void outstandingRequest(String itemID){
-        ArrayList<String> list = getCheckoutsForItem(itemID);
-        for (int i = 0; i < list.size(); i++){
-            singleOutstandingRequest(list.get(i), itemID);
-        }
-        PriorityQueue<Queue_Storer> q = getPriorityQueue(itemID);
-        for (int i = 0; !q.isEmpty(); i++){
-            updateTurns(itemID, q.peek().code);
-            deleteQueue(q.remove().cardNumber,itemID);
+        if (Main.current.privilege_>0){
+            ArrayList<String> list = getCheckoutsForItem(itemID);
+            for (int i = 0; i < list.size(); i++){
+                singleOutstandingRequest(list.get(i), itemID);
+            }
+            PriorityQueue<Queue_Storer> q = getPriorityQueue(itemID);
+            for (int i = 0; !q.isEmpty(); i++){
+                updateTurns(itemID, q.peek().code);
+                deleteQueue(q.remove().cardNumber,itemID);
+            }
+        } else {
+            System.out.println("User has no privileges for this action.");
         }
     }
 
@@ -526,10 +660,20 @@ public class Controller {
 
     // Methods used to modify any variable for a Queue entry using its card number and itemID
     public static boolean modQueueCardNumber(String cardNumber, String itemID, String newest){
-        return DatabaseFunctions.modQueueCardNumber(c,cardNumber,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modQueueCardNumber(c,cardNumber,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
     public static boolean modQueueItemID(String cardNumber, String itemID, String newest){
-        return DatabaseFunctions.modQueueItemID(c,itemID,newest);
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.modQueueItemID(c,itemID,newest);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return false;
+        }
     }
 
     // Get the priority queue for a certain item
@@ -562,6 +706,42 @@ public class Controller {
                 modDocInLine5(itemID,searchItem(itemID).inLine5-1);
                 if (searchItem(itemID).inLine5 == 0) modDocTurn5(itemID, 1);
                 break;
+        }
+    }
+
+    // Returns an ArrayList of all the entries in the system record
+    public static ArrayList<String> getRecord() {
+        if (Main.current.privilege_>4){
+            return DatabaseFunctions.getRecord(c);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return null;
+        }
+    }
+
+    // Registers in database every keyword for an item using the keywords string (keywords separated by commas)
+    public static void updateKeywords(String itemID, String keywords){
+        String[] array = keywords.toUpperCase().split(" ") ;
+        for (int i=0;i<array.length;i++){
+            DatabaseFunctions.addKeyword(c,itemID,array[i]);
+        }
+    }
+
+    public static ArrayList<String> getKeywordResults(String keyword){
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.getKeywordResults(c,keyword);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return null;
+        }
+    }
+
+    public static ArrayList<String> getKeywordsForItem(String itemID){
+        if (Main.current.privilege_>0){
+            return DatabaseFunctions.getKeywordsForItem(c,itemID);
+        } else {
+            System.out.println("User has no privileges for this action.");
+            return null;
         }
     }
 }

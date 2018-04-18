@@ -10,8 +10,9 @@ public class User {
     public String type_;
     public int borrow_;
     public double fine_;
+    public int privilege_;
 
-    public User(String username_, String name_, String address_, String phoneNumber_, String cardNumber_, String password_, String type_, int borrow_, double fine_) {
+    public User(String username_, String name_, String address_, String phoneNumber_, String cardNumber_, String password_, String type_, int borrow_, double fine_, int privilege_) {
         this.username_ = username_;
         this.name_ = name_;
         this.address_ = address_;
@@ -21,5 +22,6 @@ public class User {
         this.type_ = type_;
         this.borrow_ = borrow_;
         this.fine_ = fine_;
+        this.privilege_ = privilege_;
     }
 }

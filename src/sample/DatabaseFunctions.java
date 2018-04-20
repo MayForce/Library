@@ -3,6 +3,7 @@ package sample;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
@@ -28,9 +29,9 @@ public class DatabaseFunctions {
         return false;
     }
 
-    public static boolean addUser(Connection c, String username, String name, String address, String phoneNumber, String cardNumber, String password, String type, int borrow, double fine){
+    public static boolean addUser(Connection c, String username, String name, String address, String phoneNumber, String cardNumber, String password, String type, int borrow, double fine, int privilege){
         PreparedStatement preparedStatement;
-        String query = "insert into users (card_number, username, name, address, phone_number, password, type, borrow, fine)" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "insert into users (card_number, username, name, address, phone_number, password, type, borrow, fine, privilege)" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, cardNumber);
@@ -42,7 +43,9 @@ public class DatabaseFunctions {
             preparedStatement.setString(7, type);
             preparedStatement.setInt(8, borrow);
             preparedStatement.setDouble(9, fine);
+            preparedStatement.setInt(9, privilege);
             preparedStatement.executeUpdate();
+            addRecord(Controller.c,Main.current.type_ + " " + Main.current.cardNumber_ + " added " + type + " " + cardNumber + ". " + LocalDate.now().toString());
             return true;
         } catch (Exception e){
             return false;
@@ -57,7 +60,7 @@ public class DatabaseFunctions {
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, card_number);
             resultSet = preparedStatement.executeQuery();
-            User u = new User("","","","","", "", "",0, 0);
+            User u = new User("","","","","", "", "",0, 0, 0);
             while(resultSet.next()){
                 u.cardNumber_ = resultSet.getString("card_number");
                 u.username_ = resultSet.getString("username");
@@ -68,6 +71,7 @@ public class DatabaseFunctions {
                 u.type_ = resultSet.getString("type");
                 u.borrow_ = resultSet.getInt("borrow");
                 u.fine_ = resultSet.getDouble("fine");
+                u.privilege_ = resultSet.getInt("privilege");
             }
             if (u.username_.equals("")) return null;
             return u;
@@ -112,6 +116,7 @@ public class DatabaseFunctions {
             preparedStatement = c.prepareStatement(query1);
             preparedStatement.setString(1, card_number);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " deleted user " + card_number + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -149,6 +154,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified Card Number for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -162,6 +168,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified username for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -175,6 +182,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified name for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -188,6 +196,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified address for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -201,6 +210,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified phone number for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -214,6 +224,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified password for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -227,6 +238,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, cardNumber);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified type for " + cardNumber + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -259,9 +271,9 @@ public class DatabaseFunctions {
         }
     }
 
-    public static boolean addItem(Connection c, String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences){
+    public static boolean addItem(Connection c, String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences, String keywords){
         PreparedStatement preparedStatement;
-        String query = "insert into documents (itemID, author, title, publisher, edition, year, is_best_seller, price, number_of_copies, copies_available, type, number_of_references, in_line1, in_line2, in_line3, in_line4, in_line5, turn1, turn2, turn3, turn4, turn5)" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "insert into documents (itemID, author, title, publisher, edition, year, is_best_seller, price, number_of_copies, copies_available, type, number_of_references, keywords, in_line1, in_line2, in_line3, in_line4, in_line5, turn1, turn2, turn3, turn4, turn5)" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, itemID);
@@ -276,17 +288,19 @@ public class DatabaseFunctions {
             preparedStatement.setInt(10, numberCopies-numberReferences);
             preparedStatement.setString(11, type);
             preparedStatement.setInt(12, numberReferences);
-            preparedStatement.setInt(13, 0);
+            preparedStatement.setString(13, keywords);
             preparedStatement.setInt(14, 0);
             preparedStatement.setInt(15, 0);
             preparedStatement.setInt(16, 0);
             preparedStatement.setInt(17, 0);
-            preparedStatement.setInt(18, 1);
+            preparedStatement.setInt(18, 0);
             preparedStatement.setInt(19, 1);
             preparedStatement.setInt(20, 1);
             preparedStatement.setInt(21, 1);
             preparedStatement.setInt(22, 1);
+            preparedStatement.setInt(23, 1);
             preparedStatement.executeUpdate();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " added " + type + " " + itemID + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -301,7 +315,7 @@ public class DatabaseFunctions {
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, itemID);
             resultSet = preparedStatement.executeQuery();
-            Item_Storer it = new Item_Storer("","","","",0, 0, false, 0, 0, 0, "", 0, 0,0,0,0,0,0,0,0,0,0);
+            Item_Storer it = new Item_Storer("","","","",0, 0, false, 0, 0, 0, "", 0, "",0,0,0,0,0,0,0,0,0,0);
             while(resultSet.next()){
                 it.itemID = resultSet.getString("itemID");
                 it.author = resultSet.getString("author");
@@ -315,6 +329,7 @@ public class DatabaseFunctions {
                 it.copiesAvailable = resultSet.getInt("copies_available");
                 it.type = resultSet.getString("type");
                 it.numberReferences = resultSet.getInt("number_of_references");
+                it.keywords = resultSet.getString("keywords");
                 it.inLine1 = resultSet.getInt("in_line1");
                 it.inLine2 = resultSet.getInt("in_line2");
                 it.inLine3 = resultSet.getInt("in_line3");
@@ -340,6 +355,7 @@ public class DatabaseFunctions {
             preparedStatement = c.prepareStatement(query1);
             preparedStatement.setString(1, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " deleted " + itemID + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -354,6 +370,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified item ID for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -367,6 +384,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified author for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -380,6 +398,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified title for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -393,6 +412,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified publisher for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -406,6 +426,7 @@ public class DatabaseFunctions {
             preparedStatement.setInt(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified edition for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -419,6 +440,7 @@ public class DatabaseFunctions {
             preparedStatement.setInt(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified year for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -432,6 +454,7 @@ public class DatabaseFunctions {
             preparedStatement.setBoolean(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified best seller boolean for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -445,6 +468,7 @@ public class DatabaseFunctions {
             preparedStatement.setDouble(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified price for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -484,6 +508,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified type for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -497,6 +522,20 @@ public class DatabaseFunctions {
             preparedStatement.setInt(1, newest);
             preparedStatement.setString(2, itemID);
             preparedStatement.execute();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+    public static boolean modDocKeywords(Connection c, String itemID, String newest){
+        PreparedStatement preparedStatement;
+        String query1 = "UPDATE documents SET keywords = ? WHERE itemID = ?";
+        try{
+            preparedStatement = c.prepareStatement(query1);
+            preparedStatement.setString(1, newest);
+            preparedStatement.setString(2, itemID);
+            preparedStatement.execute();
+            addRecord(Controller.c, Main.current.type_ + " " + Main.current.cardNumber_ + " modified keywords for " + itemID + " to " + newest + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -645,6 +684,7 @@ public class DatabaseFunctions {
             preparedStatement.setInt(5, renew);
             preparedStatement.setInt(6, 0);
             preparedStatement.execute();
+            addRecord(Controller.c, cardNumber+ " checked out " + itemID + " until " + deadline + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -943,6 +983,105 @@ public class DatabaseFunctions {
             return queue;
         } catch (Exception e){
             return queue;
+        }
+    }
+
+    public static boolean addRecord(Connection c, String record){
+        PreparedStatement preparedStatement;
+        String query = "insert into record (rec, description)" + " values (?, ?)";
+        try {
+            preparedStatement = c.prepareStatement(query);
+            preparedStatement.setInt(1, 0);
+            preparedStatement.setString(2, record);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public static ArrayList<String> getRecord(Connection c) {
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String query = "SELECT * FROM record where rec = 0";
+        ArrayList<String> record = new ArrayList<>();
+        addRecord(Controller.c, "Admin obtained record. " + LocalDate.now().toString());
+        try {
+            preparedStatement = c.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                record.add(resultSet.getString("description"));
+            }
+            return record;
+        } catch (Exception e){
+            return record;
+        }
+    }
+
+    public static boolean addKeyword(Connection c, String itemID, String keyword){
+        PreparedStatement preparedStatement;
+        String query = "insert into keywords (item_id, keyword)" + " values (?, ?)";
+        try {
+            preparedStatement = c.prepareStatement(query);
+            preparedStatement.setString(1, itemID);
+            preparedStatement.setString(2, keyword);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e){
+            return false;
+        }
+    }
+
+    public static boolean deleteKeyword(Connection c, String itemID, String keyword){
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+
+        String query1 = "delete from keywords where item_id = ? and keyword = ?";
+
+        try{
+            preparedStatement = c.prepareStatement(query1);
+            preparedStatement.setString(1, itemID);
+            preparedStatement.setString(2, keyword);
+            preparedStatement.execute();
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    public static ArrayList<String> getKeywordResults(Connection c, String keyword) {
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String query = "SELECT * FROM keywords where keyword = ?";
+        ArrayList<String> results = new ArrayList<>();
+        try {
+            preparedStatement = c.prepareStatement(query);
+            preparedStatement.setString(1, keyword);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                results.add(resultSet.getString("itemID"));
+            }
+            return results;
+        } catch (Exception e){
+            return results;
+        }
+    }
+
+    public static ArrayList<String> getKeywordsForItem(Connection c, String itemID) {
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String query = "SELECT * FROM keywords where item_id = ?";
+        ArrayList<String> results = new ArrayList<>();
+        try {
+            preparedStatement = c.prepareStatement(query);
+            preparedStatement.setString(1, itemID);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()) {
+                results.add(resultSet.getString("itemID"));
+            }
+            return results;
+        } catch (Exception e){
+            return results;
         }
     }
 }

@@ -11,7 +11,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.SignUpController">
     <children>
         <Text layoutX="431.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign Up" textAlignment="CENTER">
             <font>
@@ -65,16 +65,6 @@
          <cursor>
             <Cursor fx:constant="TEXT" />
          </cursor></PasswordField>
-      <ImageView fitHeight="31.0" fitWidth="43.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@images/back_button.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="back_button" alignment="CENTER_RIGHT" layoutX="17.0" layoutY="14.0" mnemonicParsing="false" onAction="#back_to_home" prefHeight="31.0" prefWidth="70.0" style="-fx-background-color: #00000000;" text="Back">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
       <Text fx:id="all_fields" layoutX="451.0" layoutY="569.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: #3F92D2;" text="Please, fill all fields" visible="false" wrappingWidth="100.79052734375">
          <font>
             <Font size="12.0" />
@@ -93,9 +83,10 @@
 
         <MenuButton fx:id="typeOfUser" layoutX="445.0" layoutY="528.0" mnemonicParsing="false" text="MenuButton">
             <items>
-                <MenuItem fx:id="student" mnemonicParsing="false" text="Student" />
-                <MenuItem fx:id="faculty" mnemonicParsing="false" text="Faculty" />
-                <MenuItem fx:id="librarian" mnemonicParsing="false" text="Librarian" />
+                <MenuItem fx:id="student" mnemonicParsing="false" onAction="#ChosenTypeS" text="STUDENT" />
+                <MenuItem fx:id="faculty" mnemonicParsing="false" onAction="#ChosenTypeF" text="FACULTY" />
+                <MenuItem fx:id="librarian" mnemonicParsing="false" onAction="#ChosenTypeL" text="LIBRARIAN" />
+                <MenuItem fx:id="professor" mnemonicParsing="false" onAction="#ChosenTypeP" text="VISITING" />
             </items>
         </MenuButton>
 

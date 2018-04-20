@@ -112,7 +112,7 @@ public class Controller2 {
 
 
     public void addBook(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addBook.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addDocument.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 600);
         Stage stage = new Stage();
         stage.setTitle("Add Book");

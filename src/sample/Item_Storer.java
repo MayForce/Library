@@ -49,4 +49,16 @@ public class Item_Storer {
         this.turn4 = turn4;
         this.turn5 = turn5;
     }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
 }

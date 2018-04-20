@@ -77,6 +77,34 @@ public class DatabaseFunctions {
 
     }
 
+    public static User getUserByUsername(Connection c, String username) {
+        PreparedStatement preparedStatement;
+        ResultSet resultSet;
+        String query = "SELECT * FROM users where username = ?";
+        try {
+            preparedStatement = c.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
+            User u = new User("","","","","", "", "",0, 0);
+            while(resultSet.next()){
+                u.cardNumber_ = resultSet.getString("card_number");
+                u.username_ = resultSet.getString("username");
+                u.name_ = resultSet.getString("name");
+                u.address_ = resultSet.getString("address");
+                u.phoneNumber_= resultSet.getString("phone_number");
+                u.password_ = resultSet.getString("password");
+                u.type_ = resultSet.getString("type");
+                u.borrow_ = resultSet.getInt("borrow");
+                u.fine_ = resultSet.getDouble("fine");
+            }
+            if (u.username_.equals("")) return null;
+            return u;
+        } catch (Exception e){
+            return null;
+        }
+
+    }
+
     public static boolean deleteUser(Connection c, String card_number){
         PreparedStatement preparedStatement;
         String query1 = "delete from users where card_number = ?";

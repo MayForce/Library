@@ -149,6 +149,20 @@ public class Controller {
 
     }
 
+    public static User searchUserByUsername(String username) {
+        try {
+            String cardNumber = DatabaseFunctions.getUserByUsername(c,username).cardNumber_;
+            modFine(cardNumber, totalFine(cardNumber));
+            User u = DatabaseFunctions.getUser(c, cardNumber);
+            System.out.println(u.name_ + " found.");
+            return u;
+        } catch (Exception e) {
+            System.out.println("User not found in the system.");
+            return null;
+        }
+
+    }
+
     // Used to delete a User from the system using their card number
     public static void deleteUser(String cardNumber) {
         if (searchUser(cardNumber)!= null) {

@@ -20,8 +20,20 @@ public class AddDocumentController {
     public TextField edition;
     public TextField publisher;
 
-    public void addBookToBase(ActionEvent actionEvent) {
-        DatabaseFunctions.addItem(c, ID.getText(), author.getText() ,title.getText() ,publisher.getText() ,Integer.parseInt(edition.getText()) , Integer.parseInt(year.getText()), bestseller.isSelected(), Integer.parseInt(price.getText()), Integer.parseInt(numberOfCopies.getText()),type.getText(), 1);
+    public void addBookToBase (ActionEvent actionEvent) {
+        String keyWords = new String();
+        keyWords = title + " " + author + " " + publisher;
+        DatabaseFunctions.addItem(c, ID.getText(), author.getText() ,title.getText() ,publisher.getText() ,Integer.parseInt(edition.getText()) , Integer.parseInt(year.getText()), bestseller.isSelected(), Double.parseDouble(price.getText()), Integer.parseInt(numberOfCopies.getText()),type.getText(), 1, keyWords);
         System.out.println(type.getText() + " " + Controller.searchItem(ID.getText()).title + " added to system.");
+        System.out.println("Price is: " + Double.parseDouble(price.getText()));
+    }
+
+    public void chousenTypeB(ActionEvent actionEvent) {
+    }
+
+    public void chousenTypeJ(ActionEvent actionEvent) {
+    }
+
+    public void chousenTypeA(ActionEvent actionEvent) {
     }
 }

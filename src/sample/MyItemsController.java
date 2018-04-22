@@ -1,5 +1,6 @@
 package sample;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
@@ -19,8 +20,6 @@ public class MyItemsController {
     @FXML
     public TableColumn <Item_Storer, String> title;
     @FXML
-    public TableColumn <Item_Storer, String>action;
-    @FXML
     public TableColumn <Item_Storer, String> author;
 
     @FXML
@@ -30,13 +29,39 @@ public class MyItemsController {
 
     @FXML
     void showTable(){
+        Controller.c = c;
         ItemID.setCellValueFactory(new PropertyValueFactory("itemID"));
         title.setCellValueFactory(new PropertyValueFactory("title"));
         author.setCellValueFactory(new PropertyValueFactory("author"));
+        System.out.println(Main.current.cardNumber_);
+        System.out.println(Controller.getCheckoutList(Main.current.cardNumber_));
+        ArrayList<String> listOfID = Controller.getCheckoutList(Main.current.cardNumber_);
         ArrayList<Item_Storer> list = new ArrayList<>();
-        list.add(new Item_Storer("12","12","12","12",12,12,true,12,12,12, "book", 1,12 ,12,12,12,12,12,12,12,12,12));
-        list.add(new Item_Storer("12","12","12","12",12,12,true,12,12,12, "book", 1,12 ,12,12,12,12,12,12,12,12,12));
+        for (int i = 0; i < listOfID.size(); i++) {
+            list.add(Controller.searchItem(listOfID.get(i)));
+        }
         System.out.println(list.get(0).itemID);
         table.getItems().setAll(list);
     }
+
+    public void renew(ActionEvent actionEvent) {
+
+    }
 }
+/*
+try {
+            ArrayList<String> listOfID = Controller.getCheckoutList(Main.current.cardNumber_);
+            ArrayList<Item_Storer> list = new ArrayList<>();
+            for (int i = 0; i < listOfID.size(); i++) {
+                list.add(Controller.searchItem(listOfID.get(i)));
+            }
+            //list.add(new Item_Storer("12","12","12","12",12,12,true,12,12,12, "book", 1,"",12 ,12,12,12,12,12,12,12,12,12));
+            //list.add(new Item_Storer("12","12","12","12",12,12,true,12,12,12, "book", 1, "",12 ,12,12,12,12,12,12,12,12,12));
+            System.out.println(list.get(0).itemID);
+            table.getItems().setAll(list);
+        }
+        catch (NullPointerException e){
+            System.out.println("sorry");
+
+        }
+ */

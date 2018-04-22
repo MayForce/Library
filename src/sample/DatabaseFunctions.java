@@ -89,7 +89,7 @@ public class DatabaseFunctions {
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
-            User u = new User("","","","","", "", "",0, 0);
+            User u = new User("","","","","", "", "",0, 0, 0);
             while(resultSet.next()){
                 u.cardNumber_ = resultSet.getString("card_number");
                 u.username_ = resultSet.getString("username");

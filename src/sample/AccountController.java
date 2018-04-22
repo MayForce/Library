@@ -33,7 +33,7 @@ public class AccountController {
         stage.setScene(scene);
         stage.show();
 
-        AddDocumentController.c = c;
+        ((AddDocumentController) fxmlLoader.getController()).c = c;
     }
 
     public void back_to_home(ActionEvent actionEvent) throws IOException {
@@ -49,11 +49,12 @@ public class AccountController {
 
     public void myItems(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myItems.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
+        Scene scene = new Scene(fxmlLoader.load(),1000,700);
         Stage stage = new Stage();
+        stage.setTitle("My Items");
         stage.setScene(scene);
         stage.show();
 
-        MyItemsController.c = c;
+        ((MyItemsController) fxmlLoader.getController()).c = c;
     }
 }

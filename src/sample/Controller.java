@@ -92,7 +92,7 @@ public class Controller {
             String type;
             addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText(), 0);
 
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("firstPage.fxml"));
             Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
             Stage stage;
             stage = (Stage) sign_up.getScene().getWindow();
@@ -110,7 +110,7 @@ public class Controller {
     }
 
     public void back_to_home(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("firstPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
         Stage stage = (Stage) back_button.getScene().getWindow();
         stage.setTitle("InnoLibrary");

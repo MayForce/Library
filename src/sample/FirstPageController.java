@@ -26,10 +26,11 @@ public class FirstPageController {
                 if (DatabaseFunctions.login(c, login.getText(), password.getText())) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("account.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-                    Stage stage = (Stage) Main.current.getScene().getWindow();
+                    Stage stage = (Stage) Main.currentStage.getScene().getWindow();
                     stage.setTitle("Account");
                     stage.setScene(scene);
                     stage.show();
+                    Main.current = Controller.searchUserByUsername(login.getText());
 
                     ((AccountController) fxmlLoader.getController()).c = c;
                 } else {

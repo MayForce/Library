@@ -36,7 +36,7 @@ public class Controller2 {
     Connection c;
 
     public void back_to_home(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sample.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("firstPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
         Stage stage = (Stage) back_button.getScene().getWindow();
         stage.setTitle("InnoLibrary");
@@ -120,5 +120,8 @@ public class Controller2 {
         stage.show();
 
         ((Controller2) fxmlLoader.getController()).c = c;
+    }
+
+    public void addBookToBase(ActionEvent actionEvent) {
     }
 }

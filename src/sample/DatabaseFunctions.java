@@ -100,6 +100,7 @@ public class DatabaseFunctions {
                 u.type_ = resultSet.getString("type");
                 u.borrow_ = resultSet.getInt("borrow");
                 u.fine_ = resultSet.getDouble("fine");
+                u.privilege_ = resultSet.getInt("privilege");
             }
             if (u.username_.equals("")) return null;
             return u;

@@ -33,19 +33,20 @@ public class MyItemsController {
         ItemID.setCellValueFactory(new PropertyValueFactory("itemID"));
         title.setCellValueFactory(new PropertyValueFactory("title"));
         author.setCellValueFactory(new PropertyValueFactory("author"));
-        System.out.println(Main.current.cardNumber_);
         System.out.println(Controller.getCheckoutList(Main.current.cardNumber_));
         ArrayList<String> listOfID = Controller.getCheckoutList(Main.current.cardNumber_);
         ArrayList<Item_Storer> list = new ArrayList<>();
         for (int i = 0; i < listOfID.size(); i++) {
             list.add(Controller.searchItem(listOfID.get(i)));
         }
-        System.out.println(list.get(0).itemID);
         table.getItems().setAll(list);
     }
 
     public void renew(ActionEvent actionEvent) {
 
+    }
+
+    public void return_(ActionEvent actionEvent) {
     }
 }
 /*

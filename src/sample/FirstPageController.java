@@ -32,7 +32,9 @@ public class FirstPageController {
                     stage.show();
                     Main.current = Controller.searchUserByUsername(login.getText());
 
-                    ((AccountController) fxmlLoader.getController()).c = c;
+                    Controller.c = c;
+
+                    AccountController.c = c;
                 } else {
                     incorrect.setText("Wrong user information");
                     incorrect.setVisible(true);

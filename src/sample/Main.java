@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Connection c = new Javaconnect().Connector();
+        Connection c = Javaconnect.Connector();
         currentStage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("firstPage.fxml"));
         Scene sceneLogin = new Scene(fxmlLoader.load(), 1000, 700);
@@ -23,6 +23,6 @@ public class Main extends Application {
         primaryStage.show();
 
         Controller.c = c;
-        ((FirstPageController) fxmlLoader.getController()).c = c;
+        FirstPageController.c = c;
     }
 }

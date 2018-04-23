@@ -14,7 +14,7 @@
             <TableColumn fx:id="author" prefWidth="265.0" text="Author" />
         </columns>
       </TableView>
-      <Button layoutX="323.0" layoutY="596.0" onAction="#return" mnemonicParsing="false" text="Return" />
+      <Button layoutX="323.0" layoutY="596.0" onAction="#return_" mnemonicParsing="false" text="Return" />
       <Button layoutX="567.0" layoutY="596.0" onAction="#renew" mnemonicParsing="false" text="Renew" />
    </children>
 </AnchorPane>

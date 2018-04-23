@@ -128,9 +128,9 @@ public class Controller {
     public static void addUser(String username, String name, String address, String phoneNumber, String cardNumber, String password, String type, int privilege) {
         if (Main.current.privilege_>1){
             DatabaseFunctions.addUser(c, username, name, address, phoneNumber, cardNumber, password, type, 0, 0, privilege);
-            System.out.println(type + " " + Controller.searchUser(cardNumber).username_+ " added to system.");
+            error(false, "Okay", type + " " + Controller.searchUser(cardNumber).username_+ " added to system.");
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true,"Error", "User has no privileges for this action.");
         }
     }
 
@@ -139,10 +139,10 @@ public class Controller {
             try {
                 modFine(cardNumber, totalFine(cardNumber));
                 User u = DatabaseFunctions.getUser(c, cardNumber);
-                System.out.println(u.name_ + " found.");
+                error(false, "Okay", u.name_ + " found.");
                 return u;
             } catch (Exception e) {
-                System.out.println("User not found in the system.");
+                error(true, "Error", "User not found in the system.");
                 return null;
             }
     }
@@ -152,10 +152,10 @@ public class Controller {
             String cardNumber = DatabaseFunctions.getUserByUsername(c,username).cardNumber_;
             modFine(cardNumber, totalFine(cardNumber));
             User u = DatabaseFunctions.getUser(c, cardNumber);
-            System.out.println(u.name_ + " found.");
+            error(false,"Okay", u.name_ + " found.");
             return u;
         } catch (Exception e) {
-            System.out.println("User not found in the system.");
+            error(true, "Error", "User not found in the system.");
             return null;
         }
 
@@ -166,10 +166,11 @@ public class Controller {
         if (Main.current.privilege_>2){
             if (searchUser(cardNumber)!= null) {
                 DatabaseFunctions.deleteUser(c, cardNumber);
-                System.out.println("User " + cardNumber + " deleted from system.");
-            } else System.out.println("User was not found.");
+                error(false, "Okay", "User " + cardNumber + " deleted from system.");
+            } else
+                error(true, "Error", "User was not found.");
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
         }
     }
 
@@ -182,7 +183,7 @@ public class Controller {
             }
             return DatabaseFunctions.modCardNumber(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -190,7 +191,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modUsername(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -198,7 +199,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modName(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -206,7 +207,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modAddress(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -214,7 +215,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modPhoneNumber(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -222,7 +223,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modPassword(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -230,7 +231,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modType(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -246,9 +247,9 @@ public class Controller {
     public static void addItem(String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences, String keywords) {
         if (Main.current.privilege_>1){
             DatabaseFunctions.addItem(c,itemID,author,title,publisher,edition,year,isBestSeller,price,numberCopies,type, numberReferences, keywords);
-            System.out.println(type + " " + Controller.searchItem(itemID).title + " added to system.");
+            error(false, "Okay", type + " " + Controller.searchItem(itemID).title + " added to system.");
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
         }
     }
 
@@ -256,10 +257,10 @@ public class Controller {
     public static Item_Storer searchItem(String itemID) {
         try {
             Item_Storer it = DatabaseFunctions.getItem(c, itemID);
-            System.out.println(it.title + " found.");
+            error(false, "Okay", it.title + " found.");
             return it;
         } catch (Exception e) {
-            System.out.println("Item not found in the system.");
+            error(true, "Error", "Item not found in the system.");
             return null;
         }
 
@@ -270,10 +271,10 @@ public class Controller {
         if (Main.current.privilege_>2){
             if (searchItem(itemID)!= null) {
                 DatabaseFunctions.deleteItem(c, itemID);
-                System.out.println("Item " + itemID + " deleted from system.");
-            } else System.out.println("Item was not found.");
+                error(false, "Okay", "Item " + itemID + " deleted from system.");
+            } else error(true, "Error", "Item was not found.");
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
         }
     }
 
@@ -286,7 +287,7 @@ public class Controller {
             }
             return DatabaseFunctions.modDocItemID(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -294,7 +295,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocAuthor(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -302,7 +303,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocTitle(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -310,7 +311,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocPublisher(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -318,7 +319,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocEdition(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -326,7 +327,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocYear(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
 
@@ -335,7 +336,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocBestSeller(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -343,7 +344,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocPrice(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -357,7 +358,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modDocType(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -365,7 +366,7 @@ public class Controller {
         int temp = searchItem(itemID).copiesAvailable - searchItem(itemID).numberReferences;
         if (temp+newest <= searchItem(itemID).numberOfCopies)
         return DatabaseFunctions.modDocNumberReferences(c,itemID,temp+newest);
-        else System.out.println("Not enough copies."); return false;
+        else error(true, "Error", "Not enough copies."); return false;
     }
     public static boolean modDocKeywords(String itemID, String newest){
         if (Main.current.privilege_>0){
@@ -376,7 +377,7 @@ public class Controller {
             updateKeywords(itemID,newest);
             return DatabaseFunctions.modDocKeywords(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -484,10 +485,10 @@ public class Controller {
     public static Checkout searchSingleCheckout(String cardNumber, String itemID) {
         try {
             Checkout ch = DatabaseFunctions.getCheckout(c, cardNumber, itemID);
-            System.out.println("Checkout found.");
+            error(false, "Okay", "Checkout found.");
             return ch;
         } catch (Exception e) {
-            System.out.println("Checkout not found in the system.");
+            error(true, "Error", "Checkout not found in the system.");
             return null;
         }
 
@@ -519,12 +520,12 @@ public class Controller {
                     modCheckoutDeadline(cardNumber, itemID, deadline.toString());
                     modCheckoutRenew(cardNumber, itemID, searchSingleCheckout(cardNumber, itemID).renew + 1);
                 } else {
-                    System.out.println("Cannot renew more than 1 time.");
+                    error(true, "Error", "Cannot renew more than 1 time.");
                     return false;
                 }
             return true;
         } else {
-            System.out.println("Checkout not found.");
+            error(true, "Error", "Checkout not found.");
             return false;
         }
     }
@@ -538,7 +539,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modCheckoutCardNumber(c,cardNumber,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -546,7 +547,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modCheckoutItemID(c,cardNumber,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
 
@@ -576,8 +577,7 @@ public class Controller {
         if (Main.current.privilege_>1){
             modDocNumberOfCopies(itemID,searchItem(itemID).numberOfCopies + 1);
         } else {
-            System.out.println("User has no privileges for this action.");
-
+            error(true, "Error", "User has no privileges for this action.");
         }
 
     }
@@ -587,12 +587,12 @@ public class Controller {
         if (Main.current.privilege_>2){
             if (searchItem(itemID).copiesAvailable >= number) {
                 modDocNumberOfCopies(itemID,searchItem(itemID).numberOfCopies - number);
-                System.out.println(number+" copies deleted from "+searchItem(itemID).title);
+                error(false, "Okay", number+" copies deleted from "+searchItem(itemID).title);
             } else {
-                System.out.println("There are not sufficient copies of this item.");
+                error(true, "Error", "There are not sufficient copies of this item.");
             }
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
         }
     }
 
@@ -624,7 +624,7 @@ public class Controller {
                 modDocNumberReferences(itemID, searchItem(itemID).numberReferences + 1);
             }
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
         }
 
     }
@@ -641,24 +641,24 @@ public class Controller {
                 deleteQueue(q.remove().cardNumber,itemID);
             }
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
         }
     }
 
     // Used to add an entry to the Queues database
     public static void addQueue(String cardNumber, String itemID, int turn, int code) {
         DatabaseFunctions.addQueue(c,cardNumber,itemID,turn, code);
-        System.out.println(searchUser(cardNumber).name_ + " added to the queue for " + searchItem(itemID).title + " with turn " + turn + "." );
+        error(false, "Okay", searchUser(cardNumber).name_ + " added to the queue for " + searchItem(itemID).title + " with turn " + turn + ".");
     }
 
     // Used to obtain Queue information via its User card number and item ID, and store it in a Queue_Storer object
     public static Queue_Storer searchQueue(String cardNumber, String itemID) {
         try {
             Queue_Storer q = DatabaseFunctions.getQueue(c, cardNumber, itemID);
-            System.out.println("Queue found.");
+            error(false, "Okay", "Queue found.");
             return q;
         } catch (Exception e) {
-            System.out.println("Queue not found in the system.");
+            error(true, "Error", "Queue not found in the system.");
             return null;
         }
 
@@ -668,8 +668,8 @@ public class Controller {
     public static void deleteQueue(String cardNumber, String itemID) {
         if (searchQueue(cardNumber, itemID)!= null) {
             DatabaseFunctions.deleteQueue(c,cardNumber, itemID);
-            System.out.println("Queue deleted from system.");
-        } else System.out.println("Queue was not found.");
+            error(false, "Okay", "Queue deleted from system.");
+        } else error(true, "Error", "Queue was not found.");
     }
 
     // Methods used to modify any variable for a Queue entry using its card number and itemID
@@ -677,7 +677,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modQueueCardNumber(c,cardNumber,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -685,7 +685,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.modQueueItemID(c,itemID,newest);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return false;
         }
     }
@@ -728,7 +728,7 @@ public class Controller {
         if (Main.current.privilege_>3){
             return DatabaseFunctions.getRecord(c);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return null;
         }
     }
@@ -745,7 +745,7 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.getKeywordResults(c,keyword);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return null;
         }
     }
@@ -754,8 +754,22 @@ public class Controller {
         if (Main.current.privilege_>0){
             return DatabaseFunctions.getKeywordsForItem(c,itemID);
         } else {
-            System.out.println("User has no privileges for this action.");
+            error(true, "Error", "User has no privileges for this action.");
             return null;
+        }
+    }
+
+    public static void error(boolean isError, String header, String body){
+        if (isError){
+            Alert error = new Alert(Alert.AlertType.ERROR);
+            error.setHeaderText(header);
+            error.setContentText(body);
+            error.showAndWait();
+        } else {
+            Alert error = new Alert(Alert.AlertType.CONFIRMATION);
+            error.setHeaderText(header);
+            error.setContentText(body);
+            error.showAndWait();
         }
     }
 }

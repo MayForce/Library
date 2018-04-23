@@ -37,6 +37,7 @@ public class AccountController {
     }
 
     public void back_to_home(ActionEvent actionEvent) throws IOException {
+        FirstPageController.c = c;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
         Stage stage = (Stage) backButton.getScene().getWindow();
@@ -44,10 +45,11 @@ public class AccountController {
         stage.setScene(scene);
         stage.show();
 
-        ((FirstPageController) fxmlLoader.getController()).c = c;
+
     }
 
     public void myItems(ActionEvent actionEvent) throws IOException {
+        MyItemsController.c = c;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myItems.fxml"));
         Scene scene = new Scene(fxmlLoader.load(),1000,700);
         Stage stage = new Stage();
@@ -55,6 +57,6 @@ public class AccountController {
         stage.setScene(scene);
         stage.show();
 
-        ((MyItemsController) fxmlLoader.getController()).c = c;
+
     }
 }

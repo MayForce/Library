@@ -34,14 +34,15 @@ public class SignUpController {
     public MenuItem faculty;
     @FXML
     public MenuItem librarian;
+    public MenuItem faculty1;
+    public MenuItem faculty2;
 
     public void sign_up(ActionEvent actionEvent) {
         if (!(reg_login.getText().isEmpty() || reg_name.getText().isEmpty() || reg_address.getText().isEmpty() || reg_number.getText().isEmpty() || cardNumber.getText().isEmpty() || reg_password.getText().isEmpty())) {
+            
             Controller.addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText(), 0);
-            //System.out.println(typeOfUser.getText() + " " + Controller.searchUser(cardNumber.getText()).username_ + " added to system.");
-            System.out.println(typeOfUser.getText());
         } else{
-            System.out.println("smth wrong");
+            Controller.error(true,"Error", "something wrong");
         }
 
     }
@@ -55,7 +56,7 @@ public class SignUpController {
     }
 
     public void ChosenTypeF(ActionEvent actionEvent) {
-        typeOfUser.setText(faculty.getText());
+        typeOfUser.setText("FACULTY");
     }
 
     public void ChosenTypeL(ActionEvent actionEvent) {

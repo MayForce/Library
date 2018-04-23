@@ -42,27 +42,16 @@ public class MyItemsController {
         table.getItems().setAll(list);
     }
 
-    public void renew(ActionEvent actionEvent) {
-
+    @FXML
+    void renew(ActionEvent actionEvent) {
+        Controller.c = c;
+        Item_Storer copy = table.getSelectionModel().getSelectedItem();
+        Controller.renew(Main.current.cardNumber_, copy.itemID);
     }
 
     public void return_(ActionEvent actionEvent) {
+        Controller.c = c;
+        Item_Storer copy = table.getSelectionModel().getSelectedItem();
+        Controller.returnItem(Main.current.cardNumber_, copy.itemID);
     }
 }
-/*
-try {
-            ArrayList<String> listOfID = Controller.getCheckoutList(Main.current.cardNumber_);
-            ArrayList<Item_Storer> list = new ArrayList<>();
-            for (int i = 0; i < listOfID.size(); i++) {
-                list.add(Controller.searchItem(listOfID.get(i)));
-            }
-            //list.add(new Item_Storer("12","12","12","12",12,12,true,12,12,12, "book", 1,"",12 ,12,12,12,12,12,12,12,12,12));
-            //list.add(new Item_Storer("12","12","12","12",12,12,true,12,12,12, "book", 1, "",12 ,12,12,12,12,12,12,12,12,12));
-            System.out.println(list.get(0).itemID);
-            table.getItems().setAll(list);
-        }
-        catch (NullPointerException e){
-            System.out.println("sorry");
-
-        }
- */

@@ -15,112 +15,8 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class Controller {
-    @FXML
-    public Button change_scene;
-    @FXML
-    public TextField reg_login;
-    @FXML
-    public Button sign_up;
-    @FXML
-    public TextField reg_name;
-    @FXML
-    public TextField reg_address;
-    @FXML
-    public TextField reg_number;
-    @FXML
-    public PasswordField reg_password;
-    @FXML
-    public Button back_button;
-    @FXML
-    public Text incorrect;
-    @FXML
-    public Text all_fields;
-    @FXML
-    public CheckBox isLibrarian;
-    @FXML
-    public MenuButton typeOfUser;
-    @FXML
-    public TextField cardNumber;
-    @FXML
-    private TextField login;
-    @FXML
-    private PasswordField password;
 
     static Connection c;
-
-    public void login(ActionEvent actionEvent) throws IOException {
-        if (!(login.getText().isEmpty() || password.getText().isEmpty())) {
-            incorrect.setVisible(false);
-
-            try {
-                if (DatabaseFunctions.login(c, login.getText(), password.getText())) {
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("account.fxml"));
-                    Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-                    Stage stage = (Stage) change_scene.getScene().getWindow();
-                    stage.setTitle("Account");
-                    stage.setScene(scene);
-                    stage.show();
-
-                    ((Controller2) fxmlLoader.getController()).c = c;
-                } else {
-                    incorrect.setText("Wrong user information");
-                    incorrect.setVisible(true);
-                }
-            } catch (Exception e) {
-                incorrect.setText("Wrong user information");
-                incorrect.setVisible(true);
-            }
-            } else {
-            incorrect.setVisible(true);
-        }
-    }
-
-    public void change_scene(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sign_up.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(),1000,700);
-        Stage stage = (Stage) change_scene.getScene().getWindow();
-        stage.setTitle("Sign Up");
-        stage.setScene(scene);
-        stage.show();
-
-        ((Controller) fxmlLoader.getController()).c = c;
-    }
-
-    public void sign_up(ActionEvent actionEvent) throws IOException {
-        if(!(reg_login.getText().isEmpty() || reg_name.getText().isEmpty() || reg_address.getText().isEmpty() || reg_number.getText().isEmpty() || reg_password.getText().isEmpty()))
-        {
-            String type;
-            addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText(), 0);
-
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("firstPage.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-            Stage stage;
-            stage = (Stage) sign_up.getScene().getWindow();
-            stage.setTitle("InnoLibrary");
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-
-            ((Controller) fxmlLoader.getController()).c = c;
-        }
-        else
-        {
-            all_fields.setVisible(true);
-        }
-    }
-
-    public void back_to_home(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("firstPage.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-        Stage stage = (Stage) back_button.getScene().getWindow();
-        stage.setTitle("InnoLibrary");
-        stage.setScene(scene);
-        stage.show();
-
-        ((Controller) fxmlLoader.getController()).c = c;
-    }
-
-
 
     // LIBRARY SYSTEM INNER-WORKING METHODS ----------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -511,6 +407,7 @@ public class Controller {
                     modCheckoutRelease(cardNumber, itemID, date.toString());
                     modCheckoutDeadline(cardNumber, itemID, date.plusWeeks(1).toString());
                     modCheckoutRenew(cardNumber, itemID, searchSingleCheckout(cardNumber, itemID).renew + 1);
+                    error(false, "Okay", "Success.");
                 } else if (searchSingleCheckout(cardNumber, itemID).renew < 1){
                     LocalDate released = date, deadline;
                     if (searchUser(cardNumber).type_.toUpperCase().equals("FACULTY")) deadline = released.plusWeeks(4);
@@ -519,6 +416,7 @@ public class Controller {
                     modCheckoutRelease(cardNumber, itemID, released.toString());
                     modCheckoutDeadline(cardNumber, itemID, deadline.toString());
                     modCheckoutRenew(cardNumber, itemID, searchSingleCheckout(cardNumber, itemID).renew + 1);
+                    error(false, "Okay", "Success.");
                 } else {
                     error(true, "Error", "Cannot renew more than 1 time.");
                     return false;

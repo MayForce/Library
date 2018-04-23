@@ -35,7 +35,7 @@ public class Controller {
             try {
                 modFine(cardNumber, totalFine(cardNumber));
                 User u = DatabaseFunctions.getUser(c, cardNumber);
-                error(false, "Okay", u.name_ + " found.");
+                System.out.println(u.name_ + " found.");
                 return u;
             } catch (Exception e) {
                 error(true, "Error", "User not found in the system.");
@@ -48,7 +48,7 @@ public class Controller {
             String cardNumber = DatabaseFunctions.getUserByUsername(c,username).cardNumber_;
             modFine(cardNumber, totalFine(cardNumber));
             User u = DatabaseFunctions.getUser(c, cardNumber);
-            error(false,"Okay", u.name_ + " found.");
+            System.out.println(u.name_ + " found.");
             return u;
         } catch (Exception e) {
             error(true, "Error", "User not found in the system.");

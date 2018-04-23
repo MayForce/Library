@@ -83,12 +83,14 @@
 
         <MenuButton fx:id="typeOfUser" layoutX="445.0" layoutY="528.0" mnemonicParsing="false" text="Type of user">
             <items>
-                <MenuItem fx:id="student" mnemonicParsing="false" onAction="#ChosenTypeS" text="STUDENT" />
-                <MenuItem fx:id="faculty" mnemonicParsing="false" onAction="#ChosenTypeF" text="TA" />
-                <MenuItem fx:id="faculty1" mnemonicParsing="false" onAction="#ChosenTypeF" text="INSTRUCTOR" />
-                <MenuItem fx:id="faculty2" mnemonicParsing="false" onAction="#ChosenTypeF" text="PROFESSOR" />
-                <MenuItem fx:id="librarian" mnemonicParsing="false" onAction="#ChosenTypeL" text="LIBRARIAN" />
-                <MenuItem fx:id="professor" mnemonicParsing="false" onAction="#ChosenTypeP" text="VISITING" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeS" text="Student" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeFT" text="TA" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeFI" text="Instructor" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeFP" text="Professor" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeL1" text="Librarian(priv 1)" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeL2" text="Librarian(priv 2)" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeL3" text="Librarian(priv 3)" />
+                <MenuItem mnemonicParsing="false" onAction="#ChosenTypeP" text="Visiting Professor" />
             </items>
         </MenuButton>
 

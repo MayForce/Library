@@ -11,13 +11,12 @@ import java.sql.Connection;
 
 public class AccountController {
     static Connection c;
-    public Button backButton;
 
 
     public void addUser(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("sign_up.fxml"));
         Scene scene = new Scene(fxmlLoader.load(),1000,700);
-        Stage stage = new Stage();
+        Stage stage = Main.adding;
         stage.setTitle("Sign Up");
         stage.setScene(scene);
         stage.show();
@@ -28,7 +27,7 @@ public class AccountController {
     public void addDocument(ActionEvent actionEvent) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addDocument.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-        Stage stage = new Stage();
+        Stage stage = Main.adding;
         stage.setTitle("Add Book");
         stage.setScene(scene);
         stage.show();
@@ -40,7 +39,7 @@ public class AccountController {
         FirstPageController.c = c;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FirstPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
-        Stage stage = (Stage) backButton.getScene().getWindow();
+        Stage stage = Main.currentStage;
         stage.setTitle("InnoLibrary");
         stage.setScene(scene);
         stage.show();
@@ -52,7 +51,7 @@ public class AccountController {
         MyItemsController.c = c;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("myItems.fxml"));
         Scene scene = new Scene(fxmlLoader.load(),1000,700);
-        Stage stage = new Stage();
+        Stage stage = Main.adding;
         stage.setTitle("My Items");
         stage.setScene(scene);
         stage.show();

@@ -26,40 +26,57 @@ public class SignUpController {
     public TextField cardNumber;
     @FXML
     public MenuButton typeOfUser;
-    @FXML
-    public MenuItem professor;
-    @FXML
-    public MenuItem student;
-    @FXML
-    public MenuItem faculty;
-    @FXML
-    public MenuItem librarian;
-    public MenuItem faculty1;
-    public MenuItem faculty2;
+
+    int privilege;
 
     public void sign_up(ActionEvent actionEvent) {
+        Controller.c = c;
         if (!(reg_login.getText().isEmpty() || reg_name.getText().isEmpty() || reg_address.getText().isEmpty() || reg_number.getText().isEmpty() || cardNumber.getText().isEmpty() || reg_password.getText().isEmpty())) {
-            
-            Controller.addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText(), 0);
+            Controller.addUser(reg_login.getText(), reg_name.getText(), reg_address.getText(), reg_number.getText(), cardNumber.getText(), reg_password.getText(), typeOfUser.getText(), privilege);
         } else{
             Controller.error(true,"Error", "something wrong");
         }
+
 
     }
 
     public void ChosenTypeP(ActionEvent actionEvent) {
         typeOfUser.setText("VISITING");
+        privilege = 0;
     }
 
     public void ChosenTypeS(ActionEvent actionEvent) {
-        typeOfUser.setText(student.getText());
+        typeOfUser.setText("STUDENT");
+        privilege = 0;
     }
 
-    public void ChosenTypeF(ActionEvent actionEvent) {
-        typeOfUser.setText("FACULTY");
+    public void ChosenTypeFP(ActionEvent actionEvent) {
+        typeOfUser.setText("PROFESSOR");
+        privilege = 0;
     }
 
-    public void ChosenTypeL(ActionEvent actionEvent) {
-        typeOfUser.setText(librarian.getText());
+    public void ChosenTypeL1(ActionEvent actionEvent) {
+        typeOfUser.setText("LIBRARIAN");
+        privilege = 1;
+    }
+
+    public void ChosenTypeFT(ActionEvent actionEvent) {
+        typeOfUser.setText("TA");
+        privilege = 0;
+    }
+
+    public void ChosenTypeFI(ActionEvent actionEvent) {
+        typeOfUser.setText("INSTRUCTOR");
+        privilege = 0;
+    }
+
+    public void ChosenTypeL2(ActionEvent actionEvent) {
+        typeOfUser.setText("LIBRARIAN");
+        privilege = 2;
+    }
+
+    public void ChosenTypeL3(ActionEvent actionEvent) {
+        typeOfUser.setText("LIBRARIAN");
+        privilege = 3;
     }
 }

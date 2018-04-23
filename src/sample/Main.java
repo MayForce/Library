@@ -10,6 +10,7 @@ import java.sql.Connection;
 public class Main extends Application {
     public static Stage currentStage;
     public static User current;
+    public static Stage adding = new Stage();
 
 
     @Override

@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="91df36ae-05af-4887-bdbd-93f81da1c451" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database.db" afterPath="$PROJECT_DIR$/database.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/AccountController.java" afterPath="$PROJECT_DIR$/src/sample/AccountController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/AddDocumentController.java" afterPath="$PROJECT_DIR$/src/sample/AddDocumentController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Checkout.java" afterPath="$PROJECT_DIR$/src/sample/Checkout.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Controller.java" afterPath="$PROJECT_DIR$/src/sample/Controller.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/DatabaseFunctions.java" afterPath="$PROJECT_DIR$/src/sample/DatabaseFunctions.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/FirstPageController.java" afterPath="$PROJECT_DIR$/src/sample/FirstPageController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Main.java" afterPath="$PROJECT_DIR$/src/sample/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/MyItemsController.java" afterPath="$PROJECT_DIR$/src/sample/MyItemsController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/SignUpController.java" afterPath="$PROJECT_DIR$/src/sample/SignUpController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Test.java" afterPath="$PROJECT_DIR$/src/sample/Test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/account.fxml" afterPath="$PROJECT_DIR$/src/sample/account.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/addDocument.fxml" afterPath="$PROJECT_DIR$/src/sample/addDocument.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/searchUser.fxml" afterPath="$PROJECT_DIR$/src/sample/searchUser.fxml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/sign_up.fxml" afterPath="$PROJECT_DIR$/src/sample/sign_up.fxml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -486,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1524444648526</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Implemented testcases from 2 to 9.">
+      <created>1524622392509</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1524622392509</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -583,7 +574,8 @@
     <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="Move latest version to the root src folder. From now on - No More source copies!" />
     <MESSAGE value="replaced sout with alert messages." />
-    <option name="LAST_COMMIT_MESSAGE" value="replaced sout with alert messages." />
+    <MESSAGE value="Implemented testcases from 2 to 9." />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented testcases from 2 to 9." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

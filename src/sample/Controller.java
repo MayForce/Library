@@ -1,13 +1,6 @@
 package sample;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.text.Text;
-import javafx.stage.Stage;
-import java.io.IOException;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.Period;
@@ -33,9 +26,9 @@ public class Controller {
     // Used to obtain User information via their card number and store it in a User object
     public static User searchUser(String cardNumber) {
             try {
-                modFine(cardNumber, totalFine(cardNumber));
+//                modFine(cardNumber, totalFine(cardNumber));
                 User u = DatabaseFunctions.getUser(c, cardNumber);
-                System.out.println(u.name_ + " found.");
+ //               System.out.println(u.name_ + " found.");
                 return u;
             } catch (Exception e) {
                 error(true, "Error", "User not found in the system.");
@@ -143,6 +136,7 @@ public class Controller {
     public static void addItem(String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences, String keywords) {
         if (Main.current.privilege_>1){
             DatabaseFunctions.addItem(c,itemID,author,title,publisher,edition,year,isBestSeller,price,numberCopies,type, numberReferences, keywords);
+            updateKeywords(itemID, keywords);
             error(false, "Okay", type + " " + Controller.searchItem(itemID).title + " added to system.");
         } else {
             error(true, "Error", "User has no privileges for this action.");
@@ -153,10 +147,10 @@ public class Controller {
     public static Item_Storer searchItem(String itemID) {
         try {
             Item_Storer it = DatabaseFunctions.getItem(c, itemID);
-            error(false, "Okay", it.title + " found.");
+//            System.out.println(it.title + " found.");
             return it;
         } catch (Exception e) {
-            error(true, "Error", "Item not found in the system.");
+            System.out.println("Item not found in the system.");
             return null;
         }
 
@@ -381,7 +375,8 @@ public class Controller {
     public static Checkout searchSingleCheckout(String cardNumber, String itemID) {
         try {
             Checkout ch = DatabaseFunctions.getCheckout(c, cardNumber, itemID);
-            error(false, "Okay", "Checkout found.");
+            System.out.println("Checkout found.");
+//            error(false, "Okay", "Checkout found.");
             return ch;
         } catch (Exception e) {
             error(true, "Error", "Checkout not found in the system.");
@@ -518,6 +513,7 @@ public class Controller {
     public static void singleOutstandingRequest(String cardNumber, String itemID){
         if (Main.current.privilege_>1){
             if (searchSingleCheckout(cardNumber,itemID)!= null) {
+                DatabaseFunctions.addRecord(c, searchUser(cardNumber).type_+ " " + cardNumber + " was notified to return " + searchItem(itemID).type + " " + itemID + ". " + LocalDate.now().toString());
                 modCheckoutRequest(cardNumber, itemID, true);
                 modDocNumberReferences(itemID, searchItem(itemID).numberReferences + 1);
             }
@@ -528,7 +524,8 @@ public class Controller {
     }
 
     public static void outstandingRequest(String itemID){
-        if (Main.current.privilege_>0){
+        DatabaseFunctions.addRecord(c, Main.current.type_ + " " + Main.current.cardNumber_ + " placed an outstanding request on " + searchItem(itemID).type + " " + itemID + ". " + LocalDate.now().toString());
+        if (Main.current.privilege_>1){
             ArrayList<String> list = getCheckoutsForItem(itemID);
             for (int i = 0; i < list.size(); i++){
                 singleOutstandingRequest(list.get(i), itemID);
@@ -538,7 +535,9 @@ public class Controller {
                 updateTurns(itemID, q.peek().code);
                 deleteQueue(q.remove().cardNumber,itemID);
             }
+            DatabaseFunctions.addRecord(c,  "Waiting list for " + searchItem(itemID).type + " " + itemID + " was deleted. " + LocalDate.now().toString());
         } else {
+            DatabaseFunctions.addRecord(c, "Request was denied." + LocalDate.now().toString());
             error(true, "Error", "User has no privileges for this action.");
         }
     }
@@ -553,10 +552,12 @@ public class Controller {
     public static Queue_Storer searchQueue(String cardNumber, String itemID) {
         try {
             Queue_Storer q = DatabaseFunctions.getQueue(c, cardNumber, itemID);
-            error(false, "Okay", "Queue found.");
+//            System.out.println("Queue found.");
+//            error(false, "Okay", "Queue found.");
             return q;
         } catch (Exception e) {
-            error(true, "Error", "Queue not found in the system.");
+            System.out.println("Queue not found in the system.");
+//            error(true, "Error", "Queue not found in the system.");
             return null;
         }
 
@@ -566,8 +567,13 @@ public class Controller {
     public static void deleteQueue(String cardNumber, String itemID) {
         if (searchQueue(cardNumber, itemID)!= null) {
             DatabaseFunctions.deleteQueue(c,cardNumber, itemID);
-            error(false, "Okay", "Queue deleted from system.");
-        } else error(true, "Error", "Queue was not found.");
+            DatabaseFunctions.addRecord(c, searchUser(cardNumber).type_ + " " + cardNumber + " was notified that " + searchItem(itemID).type + " " + itemID + " is no longer available. " + LocalDate.now().toString());
+            System.out.println("Queue deleted from system.");
+//            error(false, "Okay", "Queue deleted from system.");
+        } else {
+            System.out.println("Queue was not found.");
+//            error(true, "Error", "Queue was not found.");
+        }
     }
 
     // Methods used to modify any variable for a Queue entry using its card number and itemID

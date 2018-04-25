@@ -2,7 +2,6 @@ package sample;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
 
 public class Checkout {
     public String userID;

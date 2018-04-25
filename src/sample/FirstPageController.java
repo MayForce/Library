@@ -22,7 +22,7 @@ public class FirstPageController {
         if (!(login.getText().isEmpty() || password.getText().isEmpty())) {
             incorrect.setVisible(false);
 
-            try {
+            //try {
                 if (DatabaseFunctions.login(c, login.getText(), password.getText())) {
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("account.fxml"));
                     Scene scene = new Scene(fxmlLoader.load(), 1000, 700);
@@ -39,10 +39,10 @@ public class FirstPageController {
                     incorrect.setText("Wrong user information");
                     incorrect.setVisible(true);
                 }
-            } catch (Exception e) {
-                incorrect.setText("Wrong user information");
-                incorrect.setVisible(true);
-            }
+//            } catch (Exception e) {
+//                incorrect.setText("Wrong user information");
+//                incorrect.setVisible(true);
+//            }
         } else {
             incorrect.setVisible(true);
         }

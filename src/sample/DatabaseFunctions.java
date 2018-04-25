@@ -43,7 +43,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(7, type);
             preparedStatement.setInt(8, borrow);
             preparedStatement.setDouble(9, fine);
-            preparedStatement.setInt(9, privilege);
+            preparedStatement.setInt(10, privilege);
             preparedStatement.executeUpdate();
             addRecord(Controller.c,Main.current.type_ + " " + Main.current.cardNumber_ + " added " + type + " " + cardNumber + ". " + LocalDate.now().toString());
             return true;
@@ -274,7 +274,7 @@ public class DatabaseFunctions {
 
     public static boolean addItem(Connection c, String itemID, String author, String title, String publisher, int edition, int year, boolean isBestSeller, double price, int numberCopies, String type, int numberReferences, String keywords){
         PreparedStatement preparedStatement;
-        String query = "insert into documents (itemID, author, title, publisher, edition, year, is_best_seller, price, number_of_copies, copies_available, type, number_of_references, keywords, in_line1, in_line2, in_line3, in_line4, in_line5, turn1, turn2, turn3, turn4, turn5)" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "insert into documents (itemID, author, title, publisher, edition, year, is_best_seller, price, number_of_copies, copies_available, type, number_of_references, keywords, in_line1, in_line2, in_line3, in_line4, in_line5, turn1, turn2, turn3, turn4, turn5)" + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try{
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, itemID);
@@ -730,6 +730,7 @@ public class DatabaseFunctions {
             preparedStatement.setString(2, itemID);
 
             preparedStatement.execute();
+            addRecord(c, getUser(c, card_number).type_ +" " + card_number + " was notified to return " + getItem(c, itemID).type + " " + itemID + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;
@@ -867,6 +868,7 @@ public class DatabaseFunctions {
             preparedStatement.setInt(3, turn);
             preparedStatement.setInt(4, code);
             preparedStatement.execute();
+            addRecord(Controller.c,getUser(c, cardNumber).type_ + " " + cardNumber + " was added to queue for " + getItem(c, itemID).type + " " + itemID + ". " + LocalDate.now().toString());
             return true;
         }catch (Exception e){
             return false;

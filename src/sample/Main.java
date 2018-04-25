@@ -34,6 +34,8 @@ public class Main extends Application {
 //        Test.T7(true);
 //        Test.T8(true);
 //        Test.T9(true);
-        Test.T10(true);
+//        Test.T10(true);
+//        Test.T11(true);
+//        Test.T12(true);
     }
 }

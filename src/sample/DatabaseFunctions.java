@@ -1055,14 +1055,14 @@ public class DatabaseFunctions {
     public static ArrayList<String> getKeywordResults(Connection c, String keyword) {
         PreparedStatement preparedStatement;
         ResultSet resultSet;
-        String query = "SELECT * FROM keywords where keyword = ?";
+        String query = "SELECT DISTINCT item_id FROM keywords where keyword = ?";
         ArrayList<String> results = new ArrayList<>();
         try {
             preparedStatement = c.prepareStatement(query);
             preparedStatement.setString(1, keyword);
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                results.add(resultSet.getString("itemID"));
+                results.add(resultSet.getString("item_id"));
             }
             return results;
         } catch (Exception e){

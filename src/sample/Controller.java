@@ -646,12 +646,12 @@ public class Controller {
     }
 
     public static ArrayList<String> getKeywordResults(String keyword){
-        if (Main.current.privilege_>0){
+    //    if (Main.current.privilege_>0){
             return DatabaseFunctions.getKeywordResults(c,keyword);
-        } else {
-            error(true, "Error", "User has no privileges for this action.");
-            return null;
-        }
+       // } else {
+//            error(true, "Error", "User has no privileges for this action.");
+//            return null;
+//        }
     }
 
     public static ArrayList<String> getKeywordsForItem(String itemID){
